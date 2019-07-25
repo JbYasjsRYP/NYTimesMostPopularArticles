@@ -1,22 +1,45 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class ArticleDetails extends React.Component {
+class ArticleDetails extends React.Component {
+
+  _isMounted = false;
+
+  state = {
+    article: {}
+  }
+
+  componentWillMount() {
+    this._isMounted = true;
+    const { article } = this.props; 
+    this.setState({ article });
+  }
+  
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  setState(object) {
+    if (this._isMounted) {
+      super.setState(object);
+    }
+  }
   
   render() {
+    const { article } = this.state;
     return (
       <View>
-        <Text>ArticleDetails</Text>
+        <Text>{article.title}</Text>
       </View>
     );
   }
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+const mapStateToProps = ({article}) => {
+  return { article };
+};
+
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetails);

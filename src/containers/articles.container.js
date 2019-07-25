@@ -1,11 +1,13 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { getAllArticlesBySectionAndPeriod } from '../services/article.service';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import routeMaps from '../navigation/routeMaps';
 import styles from '../styles/articles.styles';
+import articleActions from '../redux/actions/article.actions';
 
-export default class Articles extends React.Component {
+class Articles extends React.Component {
 
   static navigationOptions = () => {
     const headerTitle = 'NY Times Most Popular Articles';
@@ -37,6 +39,8 @@ export default class Articles extends React.Component {
   }
 
   navigateToArtileDetails = (selectedArticle) => {
+    const { setArticle } = this.props;
+    setArticle(selectedArticle);
     console.log(Object.keys(selectedArticle))
     this.props.navigation.navigate(routeMaps.ArticleDetails);
   }
@@ -72,3 +76,15 @@ export default class Articles extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({}) => ({});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setArticle: (article) => {
+      dispatch(articleActions.setArticle(article))
+    } 
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Articles);
