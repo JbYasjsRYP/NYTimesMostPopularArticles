@@ -4,15 +4,15 @@ import { getAllArticlesBySectionAndPeriod } from '../services/article.service';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import routeMaps from '../navigation/routeMaps';
-import styles from '../styles/articles.styles';
+import articleStyles from '../styles/articles.styles';
+import appHeaderStyles from '../styles/appHeader.styles';
 import articleActions from '../redux/actions/article.actions';
 
 class Articles extends React.Component {
 
   static navigationOptions = () => {
+    const { headerTitleStyle, headerStyle } = appHeaderStyles;
     const headerTitle = 'NY Times Most Popular Articles';
-    const headerTitleStyle = { color: 'white' };
-    const headerStyle = { backgroundColor: 'rgb(3, 252, 165)' };
     return { headerTitle, headerTitleStyle, headerStyle };
   }
   
@@ -41,29 +41,28 @@ class Articles extends React.Component {
   navigateToArtileDetails = (selectedArticle) => {
     const { setArticle } = this.props;
     setArticle(selectedArticle);
-    console.log(Object.keys(selectedArticle))
     this.props.navigation.navigate(routeMaps.ArticleDetails);
   }
 
   render() {
     const { articles } = this.state;
     return (
-      <View style={styles.articles}>
+      <View style={articleStyles.articles}>
         <FlatList
           data={articles}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <View style={styles.article}>
-              <View style={styles.articleContent}>
-                <Text style={styles.articleTitle}>{item.title}</Text>
+            <View style={articleStyles.article}>
+              <View style={articleStyles.articleContent}>
+                <Text style={articleStyles.articleTitle}>{item.title}</Text>
                 
-                <View style={styles.articlePublishedDate}>
+                <View style={articleStyles.articlePublishedDate}>
                   <Ionicons name='ios-calendar' size={20} />
-                  <Text style={styles.articlePublishedDateText}>{item.published_date}</Text>
+                  <Text style={articleStyles.articlePublishedDateText}>{item.published_date}</Text>
                 </View>
 
               </View>
-              <View style={styles.articleActions}>
+              <View style={articleStyles.articleActions}>
                 <Ionicons
                   name='ios-arrow-dropright'
                   size={40}
